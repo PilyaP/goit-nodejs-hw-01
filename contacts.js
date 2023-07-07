@@ -1,7 +1,7 @@
 const fs = require("fs/promises");
-const path = require("path");
+const path = "path";
 
-const contactsPath = path.join(__dirname, "db", "contacts.json");
+const contactsPath = path.resolve("db", "contacts.json");
 
 const readContactsFile = async () => {
   try {
