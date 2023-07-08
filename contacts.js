@@ -1,7 +1,6 @@
 const fs = require("fs/promises");
-const path = "path";
-
-const contactsPath = path.resolve("db", "contacts.json");
+const path = require("path");
+const contactsPath = path.join(__dirname, "db", "contacts.json");
 
 const readContactsFile = async () => {
   try {
@@ -32,7 +31,8 @@ const listContacts = async () => {
 const getContactById = async (contactId) => {
   try {
     const contacts = await readContactsFile();
-    return contacts.find((contact) => contact.id === contactId) || null;
+    const contact = contacts.find((contact) => contact.id === contactId);
+    return contact || null;
   } catch (error) {
     throw error;
   }
@@ -41,15 +41,15 @@ const getContactById = async (contactId) => {
 const removeContact = async (contactId) => {
   try {
     const contacts = await readContactsFile();
-    const contactToRemove = contacts.find(
+    const contactIndex = contacts.findIndex(
       (contact) => contact.id === contactId
     );
-    if (!contactToRemove) return null;
-    const updatedContacts = contacts.filter(
-      (contact) => contact.id !== contactId
-    );
-    await writeContactsFile(updatedContacts);
-    return contactToRemove;
+    if (contactIndex === -1) {
+      return null;
+    }
+    const removedContact = contacts.splice(contactIndex, 1)[0];
+    await writeContactsFile(contacts);
+    return removedContact;
   } catch (error) {
     throw error;
   }
