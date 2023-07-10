@@ -16,9 +16,7 @@ function invokeAction({ action, id, name, email, phone }) {
       break;
 
     case "get":
-      getContactById(id).then((contact) =>
-        console.log(contact || "Contact not found")
-      );
+      getContactById(id).then((contact) => console.log(contact || null));
       break;
 
     case "add":
@@ -29,7 +27,7 @@ function invokeAction({ action, id, name, email, phone }) {
 
     case "remove":
       removeContact(id).then((removedContact) =>
-        console.log(removedContact || "Contact not found")
+        console.log(removedContact || null)
       );
       break;
 
